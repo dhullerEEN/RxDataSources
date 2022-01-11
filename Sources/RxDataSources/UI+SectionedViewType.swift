@@ -34,7 +34,12 @@ extension UITableView : SectionedViewType {
     }
     
     public func reloadItemsAtIndexPaths(_ paths: [IndexPath], animationStyle: UITableView.RowAnimation) {
-        self.reloadRows(at: paths, with: animationStyle)
+        if #available(iOS 15.0, *) {
+            self.reconfigureRows(at: paths)
+        } else {
+            // Fallback on earlier versions
+            self.reloadRows(at: paths, with: animationStyle)
+        }
     }
     
     public func insertSections(_ sections: [Int], animationStyle: UITableView.RowAnimation) {
